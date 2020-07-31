@@ -257,7 +257,8 @@ let inline closures live_vars outer_optimizable pc (blocks, free_pc) =
                    && Primitive.has_arity prim len
                    && args_equal l args
                 then
-                  Let (x, Prim (Extern "%closure", [ Pc (NativeString prim) ])) :: rem, state
+                  ( Let (x, Prim (Extern "%closure", [ Pc (NativeString prim) ])) :: rem
+                  , state )
                 else i :: rem, state
             | _ -> i :: rem, state)
         | _ -> i :: rem, state)
