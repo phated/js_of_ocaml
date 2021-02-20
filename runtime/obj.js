@@ -134,3 +134,12 @@ function caml_obj_raw_field(o,i) { return o[i+1] }
 
 //Provides: caml_obj_set_raw_field
 function caml_obj_set_raw_field(o,i,v) { return o[i+1] = v }
+
+//Provides: caml_obj_update_tag
+function caml_obj_update_tag(b,o,n) {
+    if(b[0]==o) { b[0] = n; return 1 }
+    return 0
+}
+
+//Provides: caml_ml_domain_id
+function caml_ml_domain_id(unit) { return 0 }
