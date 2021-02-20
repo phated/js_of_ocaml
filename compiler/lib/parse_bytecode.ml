@@ -1254,27 +1254,27 @@ and compile infos pc state instrs =
           (pc + 2)
           state
           (Let (x, Block (254, Array.of_list contents, Unknown)) :: instrs)
-    | GETFIELD0 ->
+    | GETFIELD0 | GETMUTABLEFIELD0 ->
         let y = State.accu state in
         let x, state = State.fresh_var state in
         if debug_parser () then Format.printf "%a = %a[0]@." Var.print x Var.print y;
         compile infos (pc + 1) state (Let (x, Field (y, 0)) :: instrs)
-    | GETFIELD1 ->
+    | GETFIELD1 | GETMUTABLEFIELD1 ->
         let y = State.accu state in
         let x, state = State.fresh_var state in
         if debug_parser () then Format.printf "%a = %a[1]@." Var.print x Var.print y;
         compile infos (pc + 1) state (Let (x, Field (y, 1)) :: instrs)
-    | GETFIELD2 ->
+    | GETFIELD2 | GETMUTABLEFIELD2 ->
         let y = State.accu state in
         let x, state = State.fresh_var state in
         if debug_parser () then Format.printf "%a = %a[2]@." Var.print x Var.print y;
         compile infos (pc + 1) state (Let (x, Field (y, 2)) :: instrs)
-    | GETFIELD3 ->
+    | GETFIELD3 | GETMUTABLEFIELD3 ->
         let y = State.accu state in
         let x, state = State.fresh_var state in
         if debug_parser () then Format.printf "%a = %a[3]@." Var.print x Var.print y;
         compile infos (pc + 1) state (Let (x, Field (y, 3)) :: instrs)
-    | GETFIELD ->
+    | GETFIELD | GETMUTABLEFIELD ->
         let y = State.accu state in
         let n = getu code (pc + 1) in
         let x, state = State.fresh_var state in
@@ -2047,7 +2047,8 @@ and compile infos pc state instrs =
           (Let (m, Prim (Array_get, [ Pv meths; Pv lab ]))
            :: Let (meths, Field (obj, 0)) :: instrs)
     | STOP -> instrs, Stop, state
-    | EVENT | BREAK | FIRST_UNIMPLEMENTED_OP -> assert false)
+    | EVENT | BREAK | FIRST_UNIMPLEMENTED_OP -> assert false
+    | RESUME | RESUMETERM | PERFORM | REPERFORMTERM -> assert false)
 
 (****)
 
