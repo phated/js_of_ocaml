@@ -13,13 +13,7 @@ let split_on_char ~sep s =
   done;
   String.sub s ~pos:0 ~len:!j :: !r
 
-let git_version =
-  if not (try Sys.is_directory ".git" with _ -> false)
-  then ""
-  else
-    match run_and_read_lines "git log -n1 --pretty=format:%h" with
-    | version :: _ -> version
-    | [] -> ""
+let git_version = ""
 
 let version =
   let ic = open_in "VERSION" in
