@@ -64,7 +64,7 @@ let%expect_test "Unix.mkdir_ENOENT" =
     {|
   (match Unix.mkdir "/not/exists" 0o777 with
   | exception Unix.Unix_error (Unix.ENOENT, syscall, path) -> print_endline ("ENOENT: " ^ syscall ^ " " ^ path)
-  | exception _ -> print_endline "INCORRECT ERROR"
+  | exception e -> raise e
   | _ -> print_endline "BUG");
   |};
   [%expect {|ENOENT: mkdir /not/exists|}]
@@ -78,7 +78,7 @@ let%expect_test "Unix.mkdir_ENOTDIR" =
   close_out oc;
   (match Unix.mkdir "aaa/bbb" 0o777 with
   | exception Unix.Unix_error (Unix.ENOTDIR, syscall, path) -> print_endline ("ENOTDIR: " ^ syscall)
-  | exception _ -> print_endline "INCORRECT ERROR"
+  | exception e -> raise e
   | _ -> print_endline "BUG");
   Sys.remove "aaa";
   |};
@@ -90,7 +90,7 @@ let%expect_test "Unix.rmdir_ENOENT" =
     {|
   (match Unix.rmdir "/not/exists" with
   | exception Unix.Unix_error (Unix.ENOENT, syscall, path) -> print_endline ("ENOENT: " ^ syscall ^ " " ^ path)
-  | exception _ -> print_endline "INCORRECT ERROR"
+  | exception e -> raise e
   | _ -> print_endline "BUG");
   |};
   [%expect {|ENOENT: rmdir /not/exists|}]
@@ -105,7 +105,7 @@ let%expect_test "Unix.rmdir_ENOTDIR" =
   close_out oc;
   (match Unix.rmdir "aaa/bbb" with
   | exception Unix.Unix_error (Unix.ENOTDIR, syscall, path) -> print_endline ("ENOTDIR: " ^ syscall)
-  | exception _ -> print_endline "INCORRECT ERROR"
+  | exception e -> raise e
   | _ -> print_endline "BUG");
   Sys.remove "aaa/bbb";
   Unix.rmdir "aaa";
